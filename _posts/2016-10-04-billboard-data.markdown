@@ -49,7 +49,18 @@ df
 <p>Luckily we have the handy pandas library to help us visualize some data.</p>
 <p>I started by plotting all the songs in a line chart. It was not very useful :(</p>
 <img src='/img/all_songs.png'>
-</p>I then decided to group all the songs by genre and check the percentage of songs that hit number one in that genre vs all the songs that got to the top 100 in that genre. Surprisingly, only 'Rock', 'Rock n Roll', 'Latin', and 'Country' made it to the number one spot in the year 2000.</p>
+<p>I then decided to group all the songs by genre and check the percentage of songs that hit number one in that genre vs all the songs that got to the top 100 in that genre. Surprisingly, only 'Rock', 'Rock n Roll', 'Latin', and 'Country' made it to the number one spot in the year 2000.</p>
 <img src='/img/genre_percent_bar.png'>
-</p>This is a a little difficult to read. Why dont we put it into a stacked bar graph to see the weight of each genre and the songs in that genre hitting Number 1.</p>
+<p>This is a a little difficult to read. Why dont we put it into a stacked bar graph to see the weight of each genre and the songs in that genre hitting Number 1.</p>
 <img src='/img/songs_by_genre_bar.png'>
+<p>This is more like it. We can see the weight of the rock and roll genre. Of all songs that made it to the top 100, if that somg were a rock n roll song, it was much more likely to make it to number 1 than songs in any other genre</p>
+<p>What else can we do? Why don't we look at the average of the rock and rock and roll genre performances by week and compare them. I chose to remove the 'latin' and 'country' genres from this graph because both genres only have 1 song that hit number 1 at some point.</p>
+<img src='/img/avg_songs_by_genre.png'>
+<p>Interesting! The bar chart of average performance of tracks that have hit number one by genre shows us a few things.
+    <ul>
+        <li> Rock tracks peak faster than rock n roll tracks.</li>
+        <li> Rock n roll tracks stay on the charts for longer</li>
+        <li> Rock tracks are more popular (meaning they average closer to number one than rock n roll)</li>
+    </ul>
+</p>
+<p>Hope you enjoy my findings :)</p>
