@@ -43,7 +43,13 @@ df
 <h2>Getting the data I need</h2>
 <p>I only wanted the data of tracks that were in number one at some point during their appearance on the top 100.</p>
 <p>I got the data of the weeks all the songs were on the charts and which spot they held.</p>
-<p>I then removed all the </p>
+<p>I then extracted all the data that had the float 1. in it.</p>
 <br>
 <h2>Plotting the data</h2>
 <p>Luckily we have the handy pandas library to help us visualize some data.</p>
+<p>I started by plotting all the songs in a line chart. It was not very useful :(</p>
+<img src='/img/all_songs.png'>
+</p>I then decided to group all the songs by genre and check the percentage of songs that hit number one in that genre vs all the songs that got to the top 100 in that genre. Surprisingly, only 'Rock', 'Rock n Roll', 'Latin', and 'Country' made it to the number one spot in the year 2000.</p>
+<img src='/img/genre_percent_bar.png'>
+</p>This is a a little difficult to read. Why dont we put it into a stacked bar graph to see the weight of each genre and the songs in that genre hitting Number 1.</p>
+<img src='/img/songs_by_genre_bar.png'>
