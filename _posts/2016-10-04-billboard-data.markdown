@@ -53,7 +53,7 @@ df
 <img src='/img/genre_percent_bar.png'>
 <p>This is a a little difficult to read. Why dont we put it into a stacked bar graph to see the weight of each genre and the songs in that genre hitting Number 1.</p>
 <img src='/img/songs_by_genre_bar.png'>
-<p>This is more like it. We can see the weight of the rock and roll genre. Of all songs that made it to the top 100, if that somg were a rock n roll song, it was much more likely to make it to number 1 than songs in any other genre</p>
+<p>This is more like it! We can see the weight of the rock and roll genre. Of all songs that made it to the top 100, if that song were a rock n roll song, it was much more likely to make it to number 1 than songs in any other genre</p>
 <p>What else can we do? Why don't we look at the average of the rock and rock and roll genre performances by week and compare them. I chose to remove the 'latin' and 'country' genres from this graph because both genres only have 1 song that hit number 1 at some point.</p>
 <img src='/img/avg_songs_by_genre.png'>
 <p>Interesting! The bar chart of average performance of tracks that have hit number one by genre shows us a few things.
