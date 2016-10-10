@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Billboard Data: Project 2"
+title:      "Billboard Data"
 subtitle:   "Analyzing the number 1 songs in the billboard top 100 for the year 2000"
 date:       2016-10-04 20:49:00
 author:     "Amer Shalan"
