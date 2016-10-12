@@ -700,4 +700,4 @@ Given these two lists, it is recommended that these Cities be evaluated further 
 <p>Further Analysis can be performed on the brand and size of each type of liquor, as well as the optimal price based on calculated price elasticities.</p>
 <p>Hope you enjoyed following along :)</p>
 <br>
-<p>Collaborators: <a href="adalal80.github.io" target="_blank">Amish Dalal</a>, <a href="tvoreyer.github.io" target="_blank">Thomas Voreyer</a></p>
+<p>Collaborators: <a href="https://adalal80.github.io" target="_blank">Amish Dalal</a>, <a href="https://tvoreyer.github.io" target="_blank">Thomas Voreyer</a></p>
