@@ -14,7 +14,7 @@ header-img: "img/billboard.png"
 <p>Have all genres hit Number 1?</p>
 <br>
 <h2>Cleaning the data</h2>
-<p>I started by cleaning the data. Many things were wrong with it, but it was only necessary to clean the parts I needed to look at the questions I wanted answered.</p>
+<p>I started by cleaning the data. It was only necessary to clean the data that would answer my questions.</p>
 <p>The first thing wrong with our data was the null data. It was populated with '*' instead. Let's replace that with np.nan instead:</p>
 <xmp>
 def replace_nulls(value):
