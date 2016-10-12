@@ -618,82 +618,86 @@ Given these two lists, it is recommended that these Cities be evaluated further 
     The ideal mix of liquors, assuming 164 items per store,for a new store should be:
     <table>
         <thead>
+            <th>Rank</th>
             <th>Category</th>
             <th>Ideal_Mix_Qty</th>
         </thead>
         <tbody>
             <tr>
               <th>0</th>
-              <td>AMARETTO</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>BOURBON</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>BRANDIES</td>
-              <td>6</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>GIN</td>
-              <td>6</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>OTHER</td>
-              <td>18</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>RUM</td>
-              <td>21</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>SCHNAPPS</td>
-              <td>7</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>SCOTCH</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th>0</th>
-              <td>TEQUILA</td>
-              <td>9</td>
-            </tr>
-            <tr>
-              <th>0</th>
               <td>VODKA</td>
               <td>49</td>
             </tr>
             <tr>
-              <th>0</th>
+              <th>1</th>
               <td>WHISKEY</td>
               <td>46</td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td>RUM</td>
+              <td>21</td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td>OTHER</td>
+              <td>18</td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td>TEQUILA</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <th>5</th>
+              <td>SCHNAPPS</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <th>6</th>
+              <td>GIN</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <th>7</th>
+              <td>BRANDIES</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <th>8</th>
+              <td>AMARETTO</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>9</th>
+              <td>BOURBON</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>10</th>
+              <td>SCOTCH</td>
+              <td>1</td>
             </tr>
         </tbody>
     </table>
 </p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h2>Plotting the impact of a new store location</h2>
+<p>
+    We created a barchart of Fraction of Stores that are Liquor Stores by City for the top 10 cities.
+    <img src='/img/post3/bar1.png'>
+</p>
+<p>
+    Then we plotted the popularity of liquors by category.
+    <img src='/img/post3/bar2.png'>
+</p>
+<p>
+    Finally, we plotted the impact of entering the market in each of the top 10 cities.
+    <img src='/img/post3/bar3.png'>
+</p>
+<h2>Conclusion</h2>
+<p>Given the 10% random sample of the Iowa Liquor Sales, the log-normalized Linear Regression Model was used to fit the data to the model. Using the yearly Bottles Sold per each store as the target variables, the predictors Unique Items per Store, Stores per City, Avg Price, Population, and Income were used to fit the model. The correlation and MSE of the data was 0.88 and 0.17, respectively. The model was then used to predict on the test set, and comparing actual Bottles Sold to predicted Bottles Sold 0.87 and 0.19, respectively.</p>
+<p>Top 10 Cities are recommended using Average Sales per number of competition, which is stores per city. Since we are interested in the scenario where a new store enters the market. We add 1 to the stores per city and divide Avg Sales by this number. Also assumed was that avg price and bottles sold per city were constant. The following cities are recommended for new markets for a new store location: Mt Vernon, Windsor Heights, Milford, Bettendorf, Iowa City, Mason City, Clinton, Spirit Lake, Cedar Falls, and Coralville. Using the types of Liquor sold (binning them into types), the ideal mix of products to be sold was calculated, which is based on the aggregate of top 10 cities.</p>
+<p>Further Analysis can be performed on the brand and size of each type of liquor, as well as the optimal price based on calculated price elasticities.</p>
+<p>Hope you enjoyed following along :)</p>
+<br>
+<p>Collaborators: <a href="adalal80.github.io" target="_blank">Amish Dalal</a>, <a href="tvoreyer.github.io" target="_blank">Thomas Voreyer</a></p>
