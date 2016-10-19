@@ -290,5 +290,9 @@ Number of bins: 3
     <p>This is another regression on our input variables. It is of a different library, for added coefficient information. The x_train,y_train,... can be found just above the other regression graphs.</p>
     <img src='/img/post4/regress2.png'>
 </p>
+<p>We then finally plot our ROC curves for each of the salary bins.
+<img src='/img/post4/roc1.png'>
+<img src='/img/post4/roc2.png'>
+<img src='/img/post4/roc3.png'>
 <p>Hope you enjoy my findings :)</p>
 <p>Collaborators: <a href="https://tvoreyer.github.io" target="_blank">Thomas Voreyer</a>, <a href="https://jocelyn-ong.github.io" target="_blank">Jocelyn Ong</a>, </p>
