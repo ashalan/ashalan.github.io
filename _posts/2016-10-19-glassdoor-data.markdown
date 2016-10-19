@@ -7,7 +7,7 @@ author:     "Amer Shalan"
 header-img: "img/post4/header.jpg"
 ---
 
-<p>We scraped all the salary data from glassdoor for data scientists across all US cities using a <a href="https://github.com/ashalan/glassdoor-salary-scraper">custom script</a> running <a href="http://www.seleniumhq.org/projects/webdriver/"">Selenium Webdriver</a> and <a href="https://pypi.python.org/pypi/beautifulsoup4">BeautifulSoup</a>.</p>
+<p>We scraped all the salary data from glassdoor for data scientists across all US cities using a <a href="https://github.com/ashalan/glassdoor-salary-scraper">custom script</a> running <a href="http://www.seleniumhq.org/projects/webdriver/">Selenium Webdriver</a> and <a href="https://pypi.python.org/pypi/beautifulsoup4">BeautifulSoup</a>.</p>
 <br>
 <p>Which city has the highest paying salaries?</p>
 <p>Do different cities value Data Scientist salries more than others?</p>
