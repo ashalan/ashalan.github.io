@@ -4,7 +4,7 @@ title:      "Glassdoor Salary Data"
 subtitle:   "Analyzing the factors that would identify the ideal data scientist salaries across different US cities."
 date:       2016-10-19 08:49:00
 author:     "Amer Shalan"
-header-img: "img/post4/header.png"
+header-img: "img/post4/header.jpg"
 ---
 
 <p>We scraped all the salary data from glassdoor for data scientists across all US cities using a <a href="https://github.com/ashalan/glassdoor-salary-scraper">custom script</a> running <a href="http://www.seleniumhq.org/projects/webdriver/"">Selenium Webdriver</a> and <a href="https://pypi.python.org/pypi/beautifulsoup4">BeautifulSoup</a>.</p>
