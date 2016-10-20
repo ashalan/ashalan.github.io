@@ -1582,6 +1582,10 @@ pre code {
   max-height: 340px;
   overflow-y: scroll;
 }
+.overlay {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .container {
   padding-right: 15px;
   padding-left: 15px;
