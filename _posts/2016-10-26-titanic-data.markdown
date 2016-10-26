@@ -195,7 +195,7 @@ coeffs.sort_values('coef')
   </tbody>
 </table>
 <p>Since 4 of the bottom 5 coefficients are dummy created variables, we can only drop the Parch variable from our model.</p>
-<p>We the new model, we end up with this confusion matrix</p>
+<p>With the new model, we end up with this confusion matrix</p>
 <table>
   <tr>
     <th></th>
@@ -213,4 +213,50 @@ coeffs.sort_values('coef')
     <td>156</td>
   </tr>
 </table>
+<p>
+    With an roc curve:
+    <img src='/img/post5/roc.png'>
+</p>
+<p>We try the model with a GridSearch, we end up with this confusion matrix</p>
+<table>
+  <tr>
+    <th></th>
+    <th>Predicted Survived</th>
+    <th>Predicted did_not_survive</th>
+  </tr>
+  <tr>
+    <td>Survived</td>
+    <td>80</td>
+    <td>32</td>
+  </tr>
+  <tr>
+    <td>Did not Survive</td>
+    <td>25</td>
+    <td>157</td>
+  </tr>
+</table>
+<p>
+    We perform a Gridsearch for the same classification problem as above, but use KNeighborsClassifier a our estimator.
+    The best parameters end up being <xmp>{'n_neighbors': 3, 'weights': 'uniform'}</xmp>.
+    So we fit a new kNN model with the optimal parameters found in gridsearch and end up with this confusion matrix.
+</p>
+<table>
+  <tr>
+    <th></th>
+    <th>Predicted Survived</th>
+    <th>Predicted did_not_survive</th>
+  </tr>
+  <tr>
+    <td>Survived</td>
+    <td>75</td>
+    <td>37</td>
+  </tr>
+  <tr>
+    <td>Did not Survive</td>
+    <td>30</td>
+    <td>152</td>
+  </tr>
+</table>
+<p>Which turns out to be worse than our original Linear model.</p>
+<p>Perhaps it's better to keep our model linear.</p>
 <p>Hope you enjoy my findings :)</p>
