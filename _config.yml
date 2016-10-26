@@ -4,7 +4,7 @@ header-img: img/home-bg.jpg
 email: your-email@yourdomain.com
 copyright_name: Amer Shalan
 description: "Amer Shalan, the data science man!"
-baseurl: "/ashalan.github.io"
+baseurl: ""
 url: "http://yourdomain.com"
 twitter_username: pterodactylitis
 github_username:  ashalan
