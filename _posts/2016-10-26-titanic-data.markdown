@@ -13,53 +13,204 @@ header-img: "img/post5/titanic.png"
 <p>Did different ages or sexes have a higher rate of survival?</p>
 <br>
 <h2>Cleaning the data</h2>
-<p>I started by cleaning the data. It was only necessary to clean the data that would answer my questions.</p>
-<p>The first thing wrong with our data was the null data. It was populated with '*' instead. Let's replace that with np.nan instead:</p>
+<p>We had two missing ages. We can replace that with the median.</p>
 <xmp>
-def replace_nulls(value):
-    if value == '*':
-        return np.nan
-    else:
-        return value
-df = df.applymap(replace_nulls)
+# Replacing missing ages with median
+df['Age'] = df['Age'].fillna(df['Age'].median())
 </xmp>
-<p>Next was the track length. It was parsed in as time of day rather than track length. An easy split and replace should fix that:</p>
+<p>The cabin data had very little data. We drop that.</p>
 <xmp>
-# Change the time column into track length in seconds
-def to_seconds(value):
-    split = value.split(',')
-    return int(split[0])*60 + int(split[1])
-df['time'] = df['time'].map(to_seconds)
+# Delete Cabin
+del df['Cabin']
 </xmp>
-<p>Next was to drop any columns of data we had that was all nan values. We do not need that data.</p>
+<p>We drop the remaining rows that have NaN's.</p>
 <xmp>
-# Removes columns that are all NaN values
-df.dropna(axis=1, how='all', inplace=True)
-df
+# Drop remaining NaN's
+df.dropna(inplace=True)
 </xmp>
-<p>Last we had to delete any meaningless spaces in certain data etc.</p>
-<br>
-<h2>Getting the data I need</h2>
-<p>I only wanted the data of tracks that were in number one at some point during their appearance on the top 100.</p>
-<p>I got the data of the weeks all the songs were on the charts and which spot they held.</p>
-<p>I then extracted all the data that had the float 1. in it.</p>
-<br>
 <h2>Plotting the data</h2>
-<p>Luckily we have the handy pandas library to help us visualize some data.</p>
-<p>I started by plotting all the songs in a line chart. It was not very useful :(</p>
-<img src='/img/all_songs.png'>
-<p>I then decided to group all the songs by genre and check the percentage of songs that hit number one in that genre vs all the songs that got to the top 100 in that genre. Surprisingly, only 'Rock', 'Rock n Roll', 'Latin', and 'Country' made it to the number one spot in the year 2000.</p>
-<img src='/img/genre_percent_bar.png'>
+<p>I started by plotting all peoples ages and their survival.</p>
+<img src='/img/post5/age_w_survived.png'>
+<table>
+  <tr>
+    <th>Age</th>
+    <th>Category</th>
+  </tr>
+  <tr>
+    <td>0-5</td>
+    <td>Baby</td>
+  </tr>
+  <tr>
+    <td>6-15</td>
+    <td>Child</td>
+  </tr>
+  <tr>
+    <td>16-30</td>
+    <td>Adult</td>
+  </tr>
+  <tr>
+    <td>31-40</td>
+    <td>Mid</td>
+  </tr>
+  <tr>
+    <td>41-60</td>
+    <td>Old</td>
+  </tr>
+  <tr>
+    <td>61-80</td>
+    <td>Very Old</td>
+  </tr>
+</table>
+<p>I then plotted each class and their survival.</p>
+<img src='/img/post5/class_w_survived.png'>
 <p>This is a a little difficult to read. Why dont we put it into a stacked bar graph to see the weight of each genre and the songs in that genre hitting Number 1.</p>
-<img src='/img/songs_by_genre_bar.png'>
-<p>This is more like it! We can see the weight of the rock and roll genre. Of all songs that made it to the top 100, if that song were a rock n roll song, it was much more likely to make it to number 1 than songs in any other genre</p>
-<p>What else can we do? Why don't we look at the average of the rock and rock and roll genre performances by week and compare them. I chose to remove the 'latin' and 'country' genres from this graph because both genres only have 1 song that hit number 1 at some point.</p>
-<img src='/img/avg_songs_by_genre.png'>
-<p>Interesting! The bar chart of average performance of tracks that have hit number one by genre shows us a few things.
+<h2>Data Wrangling</h2>
+<p>In an attempt to figure out which coefficients I should use, I normalized the appropriate data and ran a RFE model.</p>
+<xmp>
+nc = [x for x in df.columns if x not in ['Survived', 'Sex',
+    'Embarked', 'index', 'PassengerId' , 'Name', 'Ticket']]
+
+df_norm = (df[nc] - df[nc].mean()) / (df[nc].max() - df[nc].min())
+
+svc = SVC(kernel="linear", C=1)
+rfe = RFE(estimator=svc, n_features_to_select=1, step=1)
+rfe.fit(df_norm, df.Survived)
+ranking = rfe.ranking_
+
+coeffs = pd.DataFrame(ranking, index=df[nc].columns, columns=['coef'])
+coeffs.sort_values('coef')
+</xmp>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Pclass</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Fare</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>SibSp</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Parch</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+<p>I dropped the fare data since the class data can represent similar findings but with a higher correlation.</p>
+<p>Created dummy vriables for:
     <ul>
-        <li> Rock tracks peak faster than rock n roll tracks.</li>
-        <li> Rock n roll tracks stay on the charts for longer</li>
-        <li> Rock tracks are more popular (meaning they average closer to number one than rock n roll)</li>
+        <li>Sex</li>
+        <li>Age (binned with the table above)</li>
+        <li>Embarked</li>
+        <li>Pclass</li>
     </ul>
 </p>
+<h2>Regression</h2>
+<p>I ran a RFECV to figure out the optimal number of features to use to get the highest score. What I figured out was that 7 features was the best</p>
+<img src='/img/post5/optimal_features.png'>
+<p>So I ran a Logistic Regression and received these absolute coefficients.</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Coefficient</th>
+      <th>Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>2.600351</td>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2.032660</td>
+      <td>Age_Baby</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1.482869</td>
+      <td>Class_1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.908808</td>
+      <td>Class_2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.585350</td>
+      <td>Embark_C</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.447184</td>
+      <td>SibSp</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.365025</td>
+      <td>Age_Child</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.180293</td>
+      <td>Age_Old</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.161709</td>
+      <td>Embark_Q</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.072917</td>
+      <td>Parch</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.049452</td>
+      <td>Age_Mid</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.044070</td>
+      <td>Age_Adult</td>
+    </tr>
+  </tbody>
+</table>
+<p>Since 4 of the bottom 5 coefficients are dummy created variables, we can only drop the Parch variable from our model.</p>
+<p>We the new model, we end up with this confusion matrix</p>
+<table>
+  <tr>
+    <th></th>
+    <th>Predicted Survived</th>
+    <th>Predicted did_not_survive</th>
+  </tr>
+  <tr>
+    <td>Survived</td>
+    <td>82</td>
+    <td>30</td>
+  </tr>
+  <tr>
+    <td>Did not Survive</td>
+    <td>26</td>
+    <td>156</td>
+  </tr>
+</table>
 <p>Hope you enjoy my findings :)</p>
