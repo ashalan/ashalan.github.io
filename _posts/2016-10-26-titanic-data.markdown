@@ -4,7 +4,7 @@ title:      "Titanic Data"
 subtitle:   "Analyzing survivors of the titanic tragedy."
 date:       2016-10-26 10:15:00
 author:     "Amer Shalan"
-header-img: "img/post5/titanic.png"
+header-img: "img/post5/titanic.JPG"
 ---
 
 <p>We take a look at the <a href="https://www.kaggle.com/c/titanic/data">titanic dataset</a>.</p>
