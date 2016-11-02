@@ -260,7 +260,7 @@ It is clear that it would be better to drop the missing values. Of the 10'000 va
 </p>
 <p>
   Then, I decided to make a grilled cheese sandwich :)
-  <img src="/img/post6/gc.jpeg">
+  <img src="/img/post6/gc.jpeg" style="height: 50%; width: 50%;">
 </p>
 <p>
   I decided to implement boosting to see if it would improve our models
@@ -280,8 +280,8 @@ It is clear that it would be better to drop the missing values. Of the 10'000 va
 </p>
 <p>
   Grid search is a great way to improve the performance of a classifier. I explored the parameter space of both the Decision Tree and Bagging Classifier models to see if I can improve their performance.
-  <span>The DecisionTreeClassifier Best Score was  <pre>0.850</pre> which is not better than before (0.863).</span>
-  <span>The BaggingClassifier Best Score was  <pre>0.935</pre> which is the best we've seen yet.</span>
+  <br>The DecisionTreeClassifier Best Score was  <i>0.850</i> which is not better than before (0.863).
+  <br>The BaggingClassifier Best Score was  <i>0.935</i> which is the best we've seen yet.
 </p>
 <p>Next steps should be to create a individualized recommendations. To build a model of user behaviour and see if we can predict whether or not a user would like a certain movie according to what other people have rated.</p>
 <p>It is an interesting problem to look at whether a movie will be successful in a certain community, and we can model it quite effectively. However, it would be constructive if we could get each user's rating for each movie.</p>
