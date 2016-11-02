@@ -6,3 +6,303 @@ date:       2016-11-02 10:15:00
 author:     "Amer Shalan"
 header-img: "img/post6/IMDB.jpg"
 ---
+
+<h3>What defines a successful movie?</h3>
+<p>In this hypothetical scenario, I've been hired by Netflix to examine what factors lead to certain ratings for movies.</p>
+<p>How can we tell if a movie is a hit before it is released on the netflix platform? There is no universal way to claim the goodness of movies. Many people rely on critics to gauge the quality of a film, while others use their instincts. But it takes the time to obtain a reasonable amount of critics review after a movie is released. And human instinct sometimes is unreliable.
+Given that thousands of movies are added to the netflix library each year, is there a better way for us to tell if a movie is going to be a hit without relying on our own instincts?</p>
+<h3>Getting the data</h3>
+<p>I decided to go with BeautifulSoup with the data gathering because I could not find a well documented API to use. Either way I would have had to collect a list of IMDB titles using a webscraper to then run through the API. With that approach I was getting many timeout errors and could not troubleshoot the errors. With this approach, using my own code, I would be much more familiar with the code and I can easily debug it and report on what is being successfully parsed and what isn't.</p>
+<xmp>
+def get_list(nums=range(1,201)):
+    out = []
+    skip = []
+    for i in nums:
+        try:
+            # Open the page with Beautiful Soup
+            r = urllib.urlopen('http://www.imdb.com/search/title?sort=num_votes,desc&title_type=feature&page='+str(i)).read()
+            soup = BeautifulSoup(r, 'lxml')
+            # Find all movie divs
+            movs = soup.find_all("div", class_="lister-item-content")
+            all_movies = []
+            # print the page number that we are about parse
+            print i
+            for element in movs:
+                # Get the individual elements in each movie
+                title = element.a.get_text()
+                year = int(element.find(class_="lister-item-year").get_text()[-5:-1])
+                rating = float(element.find(class_="ratings-imdb-rating").strong.get_text())
+                votes_gross = element.find_all("span", {"name":"nv"})
+                votes = int(votes_gross[0].get_text().replace(',', ''))
+                runtime = element.find(class_="runtime").get_text()
+                # Some movies did not have gross data
+                try:
+                    gross = round(eval(votes_gross[1].get_text().replace('$', '').replace('M', '*1000000')))
+                except:
+                    gross = np.nan
+                # Some movies did not have a metascore
+                try:
+                    metascore = element.find(class_="ratings-metascore").span.get_text()
+                except:
+                    metascore = np.nan
+                
+                # 
+                movie = {'title':title, 'year':year, 'rating':rating, 'votes':votes, 'gross':gross,\
+                         'metascore':metascore, 'runtime':runtime}
+                all_movies.append(movie)
+            out = out + all_movies
+        except:
+            # Rather than rerunning the entire function if any page fails,
+            # I am going to retrieve the skipped pages and add them to the skip list
+            skip.append(i)
+    print skip
+    return out
+</xmp>
+<span>Which can then easily be called by</span>
+<xmp>
+top_10000 = get_list()
+</xmp>
+<p>The data looked like this
+  <table border="1" class="dataframe">
+    <thead>
+      <tr style="text-align: right;">
+        <th></th>
+        <th>gross</th>
+        <th>metascore</th>
+        <th>rating</th>
+        <th>runtime</th>
+        <th>title</th>
+        <th>votes</th>
+        <th>year</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>0</th>
+        <td>28340000.0</td>
+        <td>80</td>
+        <td>9.3</td>
+        <td>142 min</td>
+        <td>The Shawshank Redemption</td>
+        <td>1722578</td>
+        <td>1994</td>
+      </tr>
+      <tr>
+        <th>1</th>
+        <td>533320000.0</td>
+        <td>82</td>
+        <td>9.0</td>
+        <td>152 min</td>
+        <td>The Dark Knight</td>
+        <td>1708350</td>
+        <td>2008</td>
+      </tr>
+      <tr>
+        <th>2</th>
+        <td>292570000.0</td>
+        <td>74</td>
+        <td>8.8</td>
+        <td>148 min</td>
+        <td>Inception</td>
+        <td>1499024</td>
+        <td>2010</td>
+      </tr>
+      <tr>
+        <th>3</th>
+        <td>37020000.0</td>
+        <td>66</td>
+        <td>8.8</td>
+        <td>139 min</td>
+        <td>Fight Club</td>
+        <td>1375013</td>
+        <td>1999</td>
+      </tr>
+      <tr>
+        <th>4</th>
+        <td>107930000.0</td>
+        <td>94</td>
+        <td>8.9</td>
+        <td>154 min</td>
+        <td>Pulp Fiction</td>
+        <td>1349493</td>
+        <td>1994</td>
+      </tr>
+    </tbody>
+  </table>
+  With a description of
+  <table border="1" class="dataframe">
+    <thead>
+      <tr style="text-align: right;">
+        <th></th>
+        <th>gross</th>
+        <th>rating</th>
+        <th>votes</th>
+        <th>year</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>count</th>
+        <td>6.699000e+03</td>
+        <td>9900.000000</td>
+        <td>9.900000e+03</td>
+        <td>9900.000000</td>
+      </tr>
+      <tr>
+        <th>mean</th>
+        <td>3.591706e+07</td>
+        <td>6.622596</td>
+        <td>5.412616e+04</td>
+        <td>1996.429293</td>
+      </tr>
+      <tr>
+        <th>std</th>
+        <td>5.924077e+07</td>
+        <td>1.060961</td>
+        <td>1.074613e+05</td>
+        <td>18.268252</td>
+      </tr>
+      <tr>
+        <th>min</th>
+        <td>0.000000e+00</td>
+        <td>1.100000</td>
+        <td>4.543000e+03</td>
+        <td>1915.000000</td>
+      </tr>
+      <tr>
+        <th>25%</th>
+        <td>NaN</td>
+        <td>6.000000</td>
+        <td>7.761750e+03</td>
+        <td>1989.000000</td>
+      </tr>
+      <tr>
+        <th>50%</th>
+        <td>NaN</td>
+        <td>6.700000</td>
+        <td>1.689400e+04</td>
+        <td>2002.000000</td>
+      </tr>
+      <tr>
+        <th>75%</th>
+        <td>NaN</td>
+        <td>7.400000</td>
+        <td>5.075100e+04</td>
+        <td>2009.000000</td>
+      </tr>
+      <tr>
+        <th>max</th>
+        <td>9.366300e+08</td>
+        <td>9.700000</td>
+        <td>1.722578e+06</td>
+        <td>2016.000000</td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<h3>Data Visualization</h3>
+<p>
+  <h4>Movie frequency by year</h4>
+  <img src="/img/post6/hist1.png">
+  <h4>Movie rating by frequency</h4>
+  <img src="/img/post6/hist2.png">
+  <h4>Average movie length by year</h4>
+  <img src="/img/post6/line1.png">
+  <h4>Movie Rating vs Vote Count</h4>
+  <img src="/img/post6/scatter1.png">
+</p>
+<h3>Data Munging</h3>
+<p>
+I created dummy variables for the years, so that I ended up with increments of 10 years for each grouping.
+I ended up with this
+<pre>
+  Data columns (total 18 columns):
+  gross          6699 non-null float64
+  metascore      5612 non-null object
+  rating         9900 non-null float64
+  runtime        9900 non-null int64
+  title          9900 non-null object
+  votes          9900 non-null int64
+  year           9900 non-null category
+  Year_1910's    9900 non-null float64
+  Year_1920's    9900 non-null float64
+  Year_1930's    9900 non-null float64
+  Year_1940's    9900 non-null float64
+  Year_1950's    9900 non-null float64
+  Year_1960's    9900 non-null float64
+  Year_1970's    9900 non-null float64
+  Year_1980's    9900 non-null float64
+  Year_1990's    9900 non-null float64
+  Year_2000's    9900 non-null float64
+  Year_2010's    9900 non-null float64
+</pre>
+</p>
+<p>I also added an "is hit" column to be able to specify if something is a hit or not. I chose 8.0 as the hit threshold arbitrarily (4/5 on netflix)</p>
+<h3>Modeling</h3>
+<p>I didn't like the idea of dropping all the nans, so after a bit of research I tried to fill the values using Imputation and compare the scores of each type of regression with and without Imputation. But when I did that I ended up with a better model without the NaN's.
+<h4>Without Imputation</h4>
+<pre>
+DecisionTreeClassifier Score:    0.863 ± 0.076
+RandomForestRegressor Score:     0.145 ± 0.118
+BaggingClassifier Score:         0.889 ± 0.052
+RandomForestClassifier Score:    0.887 ± 0.065
+ExtraTreesClassifier Score:      0.881 ± 0.071
+</pre> 
+<h4>With Imputation</h4>
+<pre>
+DecisionTreeClassifier Score:  0.521 ± 0.284
+RandomForestRegressor Score:  -0.249 ± 0.218
+BaggingClassifier Score:       0.53 ± 0.278
+RandomForestClassifier Score:  0.558 ± 0.261
+ExtraTreesClassifier Score:    0.61 ± 0.218
+</pre> 
+It is clear that it would be better to drop the missing values. Of the 10'000 values, 4'933 had NaN's. I dropped those values and was left with 5'077 values.
+</p>
+<p>
+  Then, I decided to make a grilled cheese sandwich :)
+  <img src="/img/post6/gc.jpeg">
+</p>
+<p>
+  I decided to implement boosting to see if it would improve our models
+  <pre>
+  GradientBoostingClassifier Score:  0.827 ± 0.133
+  AdaBoostClassifier Score:          0.851 ± 0.105
+  </pre>
+  It did not improve our model, so we will return to the bagging classifier.
+</p>
+<p>
+  I am curious about logistic modeling considering our model data are not normalized. So I created 2 pipelines, with a scaling preprocessing step and then a bagging decision tree.
+  <pre>
+  DecisionTreeClassifier Score: 0.703 ± 0.273
+  BaggingClassifier Score:      0.834 ± 0.128
+  </pre>
+  The scores are worse than the non-scaled data. So there is no need to pursue normalized data modeling.
+</p>
+<p>
+  Grid search is a great way to improve the performance of a classifier. I explored the parameter space of both the Decision Tree and Bagging Classifier models to see if I can improve their performance.
+  <span>The DecisionTreeClassifier Best Score was  <pre>0.850</pre> which is not better than before (0.863).</span>
+  <span>The BaggingClassifier Best Score was  <pre>0.935</pre> which is the best we've seen yet.</span>
+</p>
+<p>Next steps should be to create a individualized recommendations. To build a model of user behaviour and see if we can predict whether or not a user would like a certain movie according to what other people have rated.</p>
+<p>It is an interesting problem to look at whether a movie will be successful in a certain community, and we can model it quite effectively. However, it would be constructive if we could get each user's rating for each movie.</p>
+<p>Hope you enjoy my findings :)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
