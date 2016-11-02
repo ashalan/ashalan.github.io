@@ -13,7 +13,7 @@ header-img: "img/post6/IMDB.jpg"
 Given that thousands of movies are added to the netflix library each year, is there a better way for us to tell if a movie is going to be a hit without relying on our own instincts?</p>
 <h3>Getting the data</h3>
 <p>I decided to go with BeautifulSoup with the data gathering because I could not find a well documented API to use. Either way I would have had to collect a list of IMDB titles using a webscraper to then run through the API. With that approach I was getting many timeout errors and could not troubleshoot the errors. With this approach, using my own code, I would be much more familiar with the code and I can easily debug it and report on what is being successfully parsed and what isn't.</p>
-<xmp>
+<pre>
 def get_list(nums=range(1,201)):
     out = []
     skip = []
@@ -57,11 +57,11 @@ def get_list(nums=range(1,201)):
             skip.append(i)
     print skip
     return out
-</xmp>
+</pre>
 <span>Which can then easily be called by</span>
-<xmp>
+<pre>
 top_10000 = get_list()
-</xmp>
+</pre>
 <p>The data looked like this
   <table border="1" class="dataframe">
     <thead>
