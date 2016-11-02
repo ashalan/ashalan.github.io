@@ -1,0 +1,8 @@
+---
+layout:     post
+title:      "IMDB Data"
+subtitle:   "Predicting movie ratings with IMDB and python."
+date:       2016-11-02 10:15:00
+author:     "Amer Shalan"
+header-img: "img/post6/IMDB.JPG"
+---
