@@ -1,14 +1,14 @@
 # Site settings
 title: Amer's Data Day
 header-img: img/home-bg.jpg
-email: your-email@yourdomain.com
+email: amer.shalan@gmail.com
 copyright_name: Amer Shalan
 description: "Amer Shalan, the data science man!"
 baseurl: ""
 url: "https://ashalan.github.io"
 twitter_username: pterodactylitis
 github_username:  ashalan
-email_username:  your-email@yourdomain.com
+email_username:  amer.shalan@gmail.com
 
 # Google Analytics
 # To enable google analytics, uncomment below line with a valid Google Tracking ID
