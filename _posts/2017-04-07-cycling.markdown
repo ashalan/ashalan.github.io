@@ -1,0 +1,46 @@
+---
+layout:     post
+title:      "Cycling 4 Gaza"
+subtitle:   "A collection of solutions"
+date:       2017-04-07 15:53:00
+author:     "Amer Shalan"
+header-img: "img/post7/hero.jpg"
+---
+
+<p>The cycling4gaza team approached me to redesign their website to give it a more modern feel.</p>
+
+<p>The first thing to figure out was what their stack was built on. After some investigation I figured out it was built on wordpress. Something I had no experience in. Time to learn!</p>
+
+<p>It turns out wordpress is a very simple php app. Luckily they already had a child theme set up. Which it turns out is the wordpress way to override a theme. I just had to copy and paste some php template files and modify them. However I did not want to add any hardcoded things into the templates. Time to break out some googling about adding theme customization. You need to add a variable the custom register on your theme. To do that you can add actions in your themes functions.php file as shown below.</p>
+
+<pre>
+function standard_child_customize_register( $wp_customize ) {
+   //All our sections, settings, and controls will be added here
+    $wp_customize->add_section( 'standard_child_header_title' , array(
+        'title'      => __( 'Header Title', 'standard_child' ),
+        'priority'   => 50,
+    ) );
+    $wp_customize->add_setting( 'header_title' , array(
+        'default'   => 'This is a title!',
+        'transport' => 'refresh',
+    ) );
+    $wp_customize->add_control(
+        'title_header', 
+        array(
+            'label'      => __( 'Header Title', 'standard_child' ),
+            'section'    => 'standard_child_header_title',
+            'settings'   => 'header_title',
+            'type'     => 'textarea',
+        )
+    );
+}
+add_action( 'customize_register', 'standard_child_customize_register');
+</pre>
+
+<p>Then you can add a simple h1 to your theme file and import the theme modification built above.</p>
+<pre><h1 class="header-title"><?php echo get_theme_mod('header_title'); ?></h1></pre>
+<p>This makes it incredibly easy to modify your theme as shown in this picture below</p>
+<img src="/img/post7/screenshot_header.png">
+
+<p>More coming soon....</p>
+
