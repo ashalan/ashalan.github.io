@@ -38,7 +38,9 @@ add_action( 'customize_register', 'standard_child_customize_register');
 </pre>
 
 <p>Then you can add a simple h1 to your theme file and import the theme modification built above.</p>
-<pre><h1 class="header-title"><?php echo get_theme_mod('header_title'); ?></h1></pre>
+<pre>
+<h1 class="header-title"><?php echo get_theme_mod('header_title'); ?></h1>
+</pre>
 <p>This makes it incredibly easy to modify your theme as shown in this picture below</p>
 <img src="/img/post7/screenshot_header.png">
 
